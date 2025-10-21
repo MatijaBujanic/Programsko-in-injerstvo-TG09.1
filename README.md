@@ -11,33 +11,33 @@ PUBquizAPP rješava ovaj problem digitalizacijom cijelog procesa - od objave kvi
 
 * Kvizovi
 
-Organizatori mogu objavljivati kvizove s detaljima (naziv, opis, datum i vrijeme održavanja, lokacija, maksimalan broj timova, status prijava).
-Sudionici mogu pretraživati dostupne kvizove prema datumu, lokaciji ili nazivu te se prijaviti za sudjelovanje dok postoji slobodno mjesto.
-Nakon završetka kviza, organizatori mogu unijeti rezultate i rang liste timova.
+  *  Organizatori mogu objavljivati kvizove s detaljima (naziv, opis, datum i vrijeme održavanja, lokacija, maksimalan broj timova, status prijava).  
+  *  Sudionici mogu pretraživati dostupne kvizove prema datumu, lokaciji ili nazivu te se prijaviti za sudjelovanje dok postoji slobodno mjesto.  
+  *  Nakon završetka kviza, organizatori mogu unijeti rezultate i rang liste timova.  
 
 * Organizatori
 
-Organizatori mogu kreirati profile i ažurirati svoje podatke (naziv, kontakt, opis, lokacija).
-Organizatori mogu objavljivati nove kvizove, uređivati postojeće i upravljati prijavama timova.
-Organizatori mogu ograničiti broj prijava, zatvoriti prijave te slati obavijesti prijavljenim timovima o promjenama termina ili lokacije.
+  *  Organizatori mogu kreirati profile i ažurirati svoje podatke (naziv, kontakt, opis, lokacija).  
+  *  Organizatori mogu objavljivati nove kvizove, uređivati postojeće i upravljati prijavama timova.
+  *  Organizatori mogu ograničiti broj prijava, zatvoriti prijave te slati obavijesti prijavljenim timovima o promjenama termina ili lokacije.  
 
 * Registracija i timovi
 
-Korisnici se mogu registrirati putem obrasca s osnovnim podacima (korisničko ime, lozinka, e-mail, naziv tima, kontakt podaci).
-Nakon registracije, timovi mogu pregledavati i pratiti svoje prijave na kvizove te primati obavijesti o promjenama statusa kvizova.
-Timovi mogu uređivati svoj profil (naziv, članove, kontakt informacije) i povući prijavu s kviza prije isteka roka.
+  * Korisnici se mogu registrirati putem obrasca s osnovnim podacima (korisničko ime, lozinka, e-mail, naziv tima, kontakt podaci).  
+  * Nakon registracije, timovi mogu pregledavati i pratiti svoje prijave na kvizove te primati obavijesti o promjenama statusa kvizova.  
+  * Timovi mogu uređivati svoj profil (naziv, članove, kontakt informacije) i povući prijavu s kviza prije isteka roka.  
 
 * Praćenje sudjelovanja
-
-Timovi mogu pregledavati povijest svojih sudjelovanja na kvizovima te rezultate i poredak.
-Organizatori i sudionici imaju pristup arhivi održanih kvizova i njihovim rezultatima.
-Aplikacija omogućuje pregled osobne statistike (broj odigranih kvizova, osvojenih bodova i pozicija).
+  
+  * Timovi mogu pregledavati povijest svojih sudjelovanja na kvizovima te rezultate i poredak.  
+  * Organizatori i sudionici imaju pristup arhivi održanih kvizova i njihovim rezultatima.  
+  * Aplikacija omogućuje pregled osobne statistike (broj odigranih kvizova, osvojenih bodova i pozicija).  
 
 * Ocjene i povratne informacije
 
-Sudionici mogu ocijeniti i ostaviti recenzije za kvizove i organizatore.
-Organizatori mogu odgovarati na recenzije i davati povratne informacije timovima.
-Sustav omogućuje prikaz prosječne ocjene kviza i organizatora radi poboljšanja kvalitete budućih događaja.
+  * Sudionici mogu ocijeniti i ostaviti recenzije za kvizove i organizatore.  
+  * Organizatori mogu odgovarati na recenzije i davati povratne informacije timovima.  
+  * Sustav omogućuje prikaz prosječne ocjene kviza i organizatora radi poboljšanja kvalitete budućih događaja.  
 
 # Tehnologije
 
