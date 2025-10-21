@@ -41,6 +41,8 @@ PUBquizAPP rješava ovaj problem digitalizacijom cijelog procesa - od objave kvi
 
 # Tehnologije
 
+# Instalcija
+
 # Članovi tima 
 Matija Bujanić - Voditelj (Baze podataka)  
 Mihael Vranić (Baze podataka)  
