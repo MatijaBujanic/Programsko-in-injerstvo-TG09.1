@@ -5,7 +5,7 @@ Ovaj projekt je reultat timskog rada u sklopu projeknog zadatka kolegija [Progra
 
 Pub kvizovi su popularan oblik društvene zabave, ali njihova organizacija često ovisi o neformalnim kanalima kao što su društvene mreže, poruke i usmeni dogovori. Ovakav pristup otežava praćenje prijava, ograničavanje broja timova i komunikaciju između organizatora i sudionika.
 
-PUBquizAPP rješava ovaj problem digitalizacijom cijelog procesa - od objave kvizova do prijava timova i komunikacije. Naša motivacija proizlazi iz želje da unaprijedimo iskustvo sudjelovanja u kvizovima kroz transparentan i organiziran sustav koji štedi vrijeme i smanjuje napore svih uključenih.
+QuizWiz rješava ovaj problem digitalizacijom cijelog procesa - od objave kvizova do prijava timova i komunikacije. Naša motivacija proizlazi iz želje da unaprijedimo iskustvo sudjelovanja u kvizovima kroz transparentan i organiziran sustav koji štedi vrijeme i smanjuje napore svih uključenih.
 
 # Funkcijski zahtjevi
 
