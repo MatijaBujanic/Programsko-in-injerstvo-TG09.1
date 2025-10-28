@@ -1,0 +1,144 @@
+@startuml
+actor "Organizator" as O
+participant "Web aplikacija" as WA
+database "Baza podataka" as DB
+participant "Klijent e-pošte" as K
+activate O
+O -> WA : izradiNoviKviz()
+activate WA
+WA --> O : obrazacZaIzraduNovogKviza()
+O -> WA : unesiPodatkeOKvizu()
+
+alt Nisu ispunjena sva obavezna polja
+    WA ->> O : ispuniSvaObaveznaPolja()
+    deactivate O
+    deactivate WA
+else Podatci pravilno uneseni
+    WA -> DB : stvoriNoviKviz()
+    activate O
+    activate WA
+    activate DB
+    DB --> WA : potvrdaStvaranjaKviza()
+    deactivate DB
+    
+    alt Greška u bazi
+        WA ->> O : porukaGreske
+        deactivate WA
+    else Uspješno stvaranje kviza
+        WA --> O : kvizUspjesnoStvoren()
+    end
+end
+
+
+O -> WA : otvoriStranicuKviza()
+activate WA
+WA --> O : stranicaKviza()
+deactivate WA
+alt Uredi kviz
+    O -> WA : urediKviz()
+    activate WA
+    WA -> DB : provjeriVlasnistvo() 
+    activate DB
+    DB --> WA : potvrdaVlasnistva()
+    deactivate DB
+    alt Organizator nije vlasnik tog kviza
+        WA ->> O : nijeMoguceUrediti()
+        deactivate WA
+    else
+        WA -> DB : urediKviz()
+        activate WA
+        activate DB
+        DB --> WA : potvrdaUredivanja
+        deactivate DB
+        alt Uspjeh
+            WA --> O : poruka "Uspješno uređeno"
+        else Greška u bazi
+            WA ->> O : poruka "Promjene nisu prihvaćene"
+            deactivate WA
+        end
+    end
+else Obriši kviz
+    O -> WA : obrisiKviz()
+    activate WA
+    WA -> DB : provjeriVlasnistvo() 
+    activate DB
+    DB --> WA : potvrdaVlasnistva()
+    deactivate DB
+    alt Organizator nije vlasnik tog kviza
+        WA ->> O : nijeMoguceObrisati()
+        deactivate WA
+    else Organizator je vlasnik
+        WA -> DB : urediKviz()
+        activate WA
+        activate DB
+        DB --> WA : potvrdaBrisanja()
+        deactivate DB
+        alt Uspjeh i nije bilo aktivnih prijava
+            WA --> O : poruka "Uspješno uređeno"
+            deactivate WA
+        else Postoje aktivne prijave
+            
+                WA -> O : stoNapravitiSPrijavama()
+                activate WA
+                O -> WA : brisiIliOdustani()
+                alt Nemoj brisati
+                    WA --> O : "U redu"
+                    deactivate WA
+                else Briši aktivne prijave i kviz
+                    WA -> DB : obrisiPrijaveIKviz()
+                    activate WA 
+                    activate DB
+                    DB --> WA : potvrdaBrisanjaIVratiPopisPrijava()
+                    deactivate DB
+                    alt Uspjeh
+                        WA --> O : vratiNaPocetnu() + \nporuka "Uspješno obrisano"
+                        WA ->> K : obavijestOtkazivanjaEmail()
+                    else Neuspjeh
+                        WA ->> O : porukaGreske()
+                        deactivate WA
+                    end
+                end
+            
+            deactivate WA
+        end
+    end
+end
+
+
+alt Kviz još nije održan
+    O -> WA : otvoriListuPrijava()
+    activate WA
+    WA -> DB : odaberiPrijaveZaOvajKviz()
+    activate DB
+    DB --> WA : listaPrijava()
+    deactivate DB
+    WA --> O : listaPrijava()
+    deactivate WA
+    O -> WA : Odobrava/odbijа prijavu
+    activate WA
+    WA -> DB : updateStatusPrijave()
+    activate DB
+    DB --> WA : potvrda()
+    deactivate DB
+    WA --> O : potvrda()
+    WA ->> K : obavijestStatusaEmail()
+    deactivate WA
+else Kviz je održan
+    O -> WA : unesiRezultate()
+    activate WA
+    WA -> DB : unesiRezultate()
+    activate DB
+    DB --> WA : potvrdaUnosa()
+    deactivate DB
+    alt Uspjeh
+        WA --> O : poruka "Uspjeh"
+        WA ->> K : rezultatiObjavljeni()
+        
+    else Neuspjeh
+        WA ->> O : "Došlo je do greške"
+        deactivate WA
+    end
+end
+
+
+@enduml
