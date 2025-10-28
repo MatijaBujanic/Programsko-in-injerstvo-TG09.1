@@ -1,0 +1,90 @@
+' ============================================================
+' UC3 - Odjava iz sustava
+' ============================================================
+@startuml
+
+actor "Prijavljeni korisnik" as K order 1
+participant "Web aplikacija" as WA order 2
+participant "Sustav (Session manager)" as S order 3
+activate K
+K -> WA : odjaviSe()
+activate WA
+WA -> S : prekiniSesiju()
+activate S
+alt Uspješna odjava
+    S --> WA : sesijaUklonjena
+    deactivate S
+    WA --> K : pocetnaStranica + poruka "Odjava uspješna"
+    deactivate WA
+    
+else Tehnička greška
+    activate S
+    S --> WA : odjavaNijeUspjela
+    WA --> K : poruka "Odjava nije dovršena"
+end
+deactivate S
+
+database "Baza podataka" as DB order 4
+
+K -> WA : otvoriStranicuProfila()
+activate WA
+WA -> DB : traziPodatkeProfila()
+activate DB
+alt Greška u bazi
+    activate DB
+    DB --> WA : javiGresku()
+    deactivate DB
+    WA ->> K : javiGreskuINemaPromjene()
+else Podatci uspješno poslani
+    DB --> WA : podatciProfila()
+    deactivate DB
+    WA --> K : otvaraStranicuProfila()
+    deactivate WA
+
+end 
+
+
+K ->> WA : urediProfil()
+activate WA
+K -> WA : unosNovihPodataka()
+alt Greška u korisničkom unosu podataka
+    WA ->> K : nevaljaliPodatci()
+    deactivate WA
+else Dobri podatci
+    WA -> DB : azurirajPodatke()
+    activate WA
+    activate DB
+    DB --> WA : potvrdaPromjene()
+    deactivate DB
+    alt
+        WA --> K : javiUspjesnoSpremanje()
+    else Greška pri spremanju
+        WA ->> K : javiGresku()
+        deactivate WA 
+    end
+end
+
+K -> WA : obrisiRacun()
+activate WA
+WA -> K : jesteLiSigurni()
+alt Brisanje
+    K -> WA : daObrisi()
+    WA -> DB : brisiKorisnika()
+    activate DB
+    DB --> WA : rezultatBrisanja()
+    deactivate DB
+    alt Uspjeh
+        WA --> K : odjava() + poruka "Račun obrisan"
+    else Greška
+        WA ->> K : javiGresku()
+        
+    end
+else Odustajanje
+    
+    K -> WA : nemojObrisati()
+    WA --> K : povratakNaProfil()
+    deactivate WA
+end
+
+@enduml
+
