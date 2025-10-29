@@ -35,9 +35,9 @@ PUBquizAPP rješava ovaj problem digitalizacijom cijelog procesa - od objave kvi
 
 * Ocjene i povratne informacije
 
-  * Sudionici mogu ocijeniti i ostaviti recenzije za kvizove i organizatore.  
-  * Organizatori mogu odgovarati na recenzije i davati povratne informacije timovima.  
-  * Sustav omogućuje prikaz prosječne ocjene kviza i organizatora radi poboljšanja kvalitete budućih događaja.  
+  * Sudionici mogu ocijeniti i ostaviti recenzije za kvizove.  
+  * Organizatori kvizova mogu odgovarati na recenzije. 
+  * Sustav omogućuje prikaz prosječne ocjene kvizova organizatorima radi poboljšanja kvalitete budućih kvizova.  
 
 # Tehnologije
 
