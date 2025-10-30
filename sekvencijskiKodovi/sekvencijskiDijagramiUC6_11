@@ -1,0 +1,170 @@
+@startuml
+actor "Sudionik" as S
+participant "Web aplikacija" as WA
+database "Baza podataka" as DB
+
+
+activate S
+S -> WA : otvoriStranicuKvizova()
+activate WA
+WA --> S : stranicaKvizova()
+deactivate WA
+S -> WA : unesiKriterijePretrage(naziv, lokacija, datum)
+activate WA
+WA -> DB : traziKvizovePoKriterijima()
+activate DB
+
+alt Pronadeni kvizovi
+    DB --> WA : listaKvizova()
+    deactivate DB
+    WA --> S : prikaziRezultatePretrage()
+    deactivate WA
+    S -> WA : otvoriDetaljeKviza()
+    activate WA
+    WA --> S : prikaziDetaljeKviza()
+    deactivate WA
+else Nema rezultata
+    activate DB
+    DB --> WA : nemaRezultata()
+    activate WA
+    deactivate DB
+    WA ->> S : poruka "Nema pronađenih rezultata"
+    deactivate WA
+end
+deactivate WA
+deactivate S
+
+
+
+S -> WA : otvoriStranicuKviza()
+activate S
+activate WA
+WA --> S : prikazInformacijaKviza()
+deactivate WA
+S -> WA : prijaviTim()
+activate WA
+WA -> DB : provjeriDostupnostMjesta()
+activate DB
+alt Kviz dostupan
+    DB --> WA : mjestaSlobodna()
+    deactivate DB
+    WA -> DB : spremiPrijavuTima()
+    activate DB
+    DB --> WA : potvrdaPrijave()
+    deactivate DB
+    WA --> S : poruka "Prijava uspješna"
+    deactivate WA
+else Nije moguće prijaviti tim
+    activate DB
+    alt Kviz popunjen
+        DB --> WA : kvizPopunjen()
+        activate WA
+        deactivate DB
+        WA ->> S : poruka "Kviz popunjen – prijava onemogućena"
+        deactivate WA
+    else Kviz otkazan
+        activate DB
+        DB --> WA : kvizOtkazan()
+        activate WA
+        deactivate DB
+        WA ->> S : poruka "Kviz je otkazan – prijava nije moguća"
+        deactivate WA
+    end
+end
+
+
+' ============================================================
+' UC8 - Povlačenje prijave
+' ============================================================
+activate S
+S -> WA : otvoriListuPrijava()
+activate WA
+WA -> DB : dohvatiPrijaveZaKorisnika()
+activate DB
+DB --> WA : listaPrijava()
+deactivate DB
+
+alt Korisnik ima prijava
+    WA --> S : prikaziStatusPrijava()
+    deactivate WA
+        S -> WA : povuciPrijavu(odabraniKviz)
+        activate WA
+        WA -> S : potvrdiRadnju()
+        S -> WA : potvrdaPovlacenja()
+        
+        alt Rok nije istekao
+            WA -> DB : azurirajStatusPrijave("povučen")
+            activate DB
+            DB --> WA : potvrdaAzuriranja()
+            deactivate DB
+            WA --> S : poruka "Prijava uspješno povučena"
+        else Rok istekao
+            WA ->> S : upozorenje "Rok za povlačenje istekao"
+            deactivate WA
+        end
+else Nema prijava
+    activate DB
+    DB --> WA : praznaLista()
+    deactivate DB
+    WA ->> S : poruka "Još niste prijavljeni ni na jedan kviz"
+end
+
+
+activate S
+S -> WA : otvoriStranicuRezultati()
+activate WA
+WA -> DB : dohvatiKvizoveIzArhive()
+activate DB
+DB --> WA : listaZavrsenihKvizova()
+deactivate DB
+WA --> S : prikaziArhivu()
+deactivate WA
+S -> WA : odaberiKvizIzArhive()
+activate WA
+WA -> DB : dohvatiRezultateZaKviz()
+activate DB
+alt Rezultati objavljeni
+    DB --> WA : rangLista()
+    deactivate DB
+    WA --> S : prikaziRezultate()
+    deactivate WA
+else Rezultati još nisu objavljeni
+    activate DB
+    DB --> WA : nemaRezultata()
+    activate WA
+    deactivate DB
+    WA ->> S : poruka "Rezultati još nisu objavljeni"
+end
+deactivate WA
+deactivate S
+
+S -> WA : otvoriSudjelovaniKviz()
+activate S
+activate WA
+WA -> DB : provjeriSudjelovanje()
+activate DB
+alt Sudionik je sudjelovao
+    DB --> WA : potvrdaSudjelovanja()
+    deactivate DB
+    WA --> S : prikaziOpcijuOcjenjivanja()
+    deactivate WA
+    S -> WA : ocijeniKvizIliOrganizatora()
+    activate WA
+    WA -> DB : spremiOcjenu()
+    activate DB
+    DB --> WA : potvrdaSpremanja()
+    deactivate DB
+    WA --> S : poruka "Ocjena uspješno spremljena"
+    deactivate WA
+    activate DB
+else Sudionik nije sudjelovao
+    DB --> WA : nijeSudjelovao()
+    activate WA
+    deactivate DB
+    WA ->> S : poruka "Ne možete ocijeniti kviz na kojem niste sudjelovali"
+    deactivate WA
+end
+
+deactivate S
+
+@enduml
